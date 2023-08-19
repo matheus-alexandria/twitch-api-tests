@@ -1,6 +1,5 @@
 import fastify from 'fastify';
 import { env } from './env';
-import fs from 'fs';
 import https from 'https';
 
 const app = fastify();
@@ -10,7 +9,7 @@ function getTwitchUserData(): Promise<string> {
     const req = https.request({
       method: 'GET',
       hostname: 'api.twitch.tv',
-      path: '/helix/users?login=cellbit',
+      path: '/helix/polls?broadcaster_id=28579002',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.AUTH_TOKEN}`,
