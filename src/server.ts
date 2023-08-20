@@ -1,6 +1,9 @@
 import fastify from 'fastify';
 import { env } from './env';
 import https from 'https';
+import { z } from 'zod';
+import { hash } from 'bcryptjs';
+import { prisma } from './lib/prisma';
 
 const app = fastify();
 
@@ -45,6 +48,26 @@ app.get('/', async (request, reply) => {
   }
 
   return reply.send();
+});
+
+app.post('/auth', async (request, reply) => {
+  const authRequestSchema = z.object({
+    name: z.string(),
+    token: z.string(),
+  });
+
+  const { name, token } = authRequestSchema.parse(request.body);
+
+  const tokenHash = await hash(token, 6);
+
+  await prisma.streamer.create({
+    data: {
+      name,
+      token_hash: tokenHash
+    }
+  });
+
+  return reply.status(201).send();
 });
 
 app.listen({

@@ -12,6 +12,7 @@ datasource db {
 
 model Streamer {
   id         String @id @default(uuid())
+  name       String
   token_hash String
 
   @@map("streamers")
