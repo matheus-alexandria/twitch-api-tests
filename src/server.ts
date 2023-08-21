@@ -2,7 +2,7 @@ import fastify from 'fastify';
 import { env } from './env';
 import https from 'https';
 import { z } from 'zod';
-import { hash } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { prisma } from './lib/prisma';
 
 const app = fastify();
@@ -68,6 +68,31 @@ app.post('/auth', async (request, reply) => {
   });
 
   return reply.status(201).send();
+});
+
+app.get('/login', async (request, reply) => {
+  const loginRequestSchema = z.object({
+    name: z.string(),
+    token: z.string(),
+  });
+
+  const { name, token } = loginRequestSchema.parse(request.body);
+
+  const streamer = await prisma.streamer.findFirst({
+    where: {
+      name,
+    }
+  });
+
+  if (!streamer) {
+    return reply.status(404).send({
+      message: 'User not found.'
+    });
+  }
+
+  const confirm = await compare(token, streamer.token_hash);
+
+  return reply.send(confirm);
 });
 
 app.listen({
