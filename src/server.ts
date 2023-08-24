@@ -7,8 +7,6 @@ import { prisma } from './lib/prisma';
 
 const app = fastify();
 
-console.log('Commmit');
-
 function getTwitchUserData(): Promise<string> {
   return new Promise((resolve, rejects) => {
     const req = https.request({
