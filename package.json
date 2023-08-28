@@ -1,5 +1,8 @@
 {
   "name": "twitch-api-tests",
+  "engines": {
+    "node": ">=18"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
