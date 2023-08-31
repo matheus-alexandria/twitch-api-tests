@@ -5,6 +5,7 @@ const envSchema = z.object({
   AUTH_TOKEN: z.string(),
   CLIENT_ID: z.string(),
   CLIENT_SECRET: z.string(),
+  PORT: z.coerce.number().default(3333),
 });
 
 const envParsed = envSchema.safeParse(process.env);

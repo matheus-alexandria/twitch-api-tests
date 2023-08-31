@@ -17,7 +17,7 @@ function getTwitchUserData(): Promise<string> {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.AUTH_TOKEN}`,
         'Client-Id': env.CLIENT_ID
-      }
+      },
     }, (res) => {
       let data = '';
     
@@ -96,7 +96,7 @@ app.get('/login', async (request, reply) => {
 });
 
 app.listen({
-  port: 3333,
+  port: env.PORT,
 }, () => {
   console.log("Online");
 });
